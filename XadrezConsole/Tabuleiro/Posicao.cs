@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace XadrezConsole.tabuleiro
+﻿namespace XadrezConsole.tabuleiro
 {
     class Posicao
     {
