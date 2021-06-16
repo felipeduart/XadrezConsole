@@ -2,32 +2,42 @@
 using System.Collections.Generic;
 using System.Text;
 using XadrezConsole.tabuleiro;
+using XadrezConsole.Xadrez;
+
 
 namespace XadrezConsole
 {
     class Tela
     {
-        public static void ImprimirTabuleiro(Tabuleiro tabuleiro)
+        public static void ImprimirTabuleiro(Tabuleiro tab)
         {
-            for (int i = 0; i < tabuleiro.Linhas; i++)
+            for (int i = 0; i < tab.Linhas; i++)
             {
                 Console.Write(8 - i + " ");
-                for (int j = 0; j < tabuleiro.Colunas; j++)
+                for (int j = 0; j < tab.Colunas; j++)
                 {
 
-                    if (tabuleiro.peca(i, j) == null)
+                    if (tab.peca(i, j) == null)
                     {
                         Console.Write("- ");
                     }
                     else
                     {
-                        Tela.imprimirPeca(tabuleiro.peca(i, j));
+                        Tela.imprimirPeca(tab.peca(i, j));
                         Console.Write(" ");
                     }
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
+        }
+
+        public static Posicao lerPosicaoXadrez()
+        {
+            string s = Console.ReadLine();
+            char coluna = s[0];
+            int linha = int.Parse(s[1] + "");
+            return new PosicaoXadrez(coluna, linha).toPosicao();
         }
 
         public static void imprimirPeca(Peca peca)
