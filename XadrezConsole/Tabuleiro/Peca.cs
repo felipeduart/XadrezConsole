@@ -1,15 +1,15 @@
 ﻿namespace XadrezConsole.tabuleiro
 {
-   abstract class Peca
+    abstract class Peca
     {
         public Posicao Posicao { get; set; }
         public Cor Cor { get; protected set; }
         public int QuantidadeMovimentos { get; set; }
         public Tabuleiro Tab { get; protected set; }
 
-        public Peca( Cor cor, Tabuleiro tabuleiro)
+        public Peca(Cor cor, Tabuleiro tabuleiro)
         {
-            Posicao  = null;
+            Posicao = null;
             Cor = cor;
             QuantidadeMovimentos = 0;
             Tab = tabuleiro;
@@ -19,6 +19,22 @@
         {
             QuantidadeMovimentos++;
         }
+
+        public bool existeMovimentoPossivel()
+        {
+            bool[,] mat = movimentosPossiveis();
+            for (int i = 0; i < Tab.Linhas; i++)
+            {
+                for (int j = 0; j < Tab.Colunas; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } 
 
         public abstract bool[,] movimentosPossiveis();
     }
