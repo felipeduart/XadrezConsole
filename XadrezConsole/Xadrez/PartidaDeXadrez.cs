@@ -36,6 +36,7 @@ namespace XadrezConsole.Xadrez
         {
             tab.ColocarPeca(new Torre(tab, Cor.Branca), new PosicaoXadrez('c', 1).toPosicao());
             tab.ColocarPeca(new Torre(tab, Cor.Preta), new PosicaoXadrez('c', 2).toPosicao());
+            tab.ColocarPeca(new Rei(tab, Cor.Preta), new PosicaoXadrez('c', 3).toPosicao());
 
         }
     }

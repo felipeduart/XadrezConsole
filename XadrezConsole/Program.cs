@@ -17,11 +17,18 @@ namespace XadrezConsole
                 while (!Partida.terminada)
                 {
                     Console.Clear();
-                   Tela.ImprimirTabuleiro(Partida.tab);
+                    Tela.ImprimirTabuleiro(Partida.tab);
 
                     Console.WriteLine();
                     Console.Write("Origem: ");
                     Posicao origem = Tela.lerPosicaoXadrez();
+
+                    bool[,] posicoesPossiveis = Partida.tab.peca(origem).movimentosPossiveis();
+
+                    Console.Clear();
+                    Tela.ImprimirTabuleiro(Partida.tab,posicoesPossiveis);
+
+                    Console.WriteLine();
                     Console.Write("Destino: ");
                     Posicao destino = Tela.lerPosicaoXadrez();
 
@@ -30,7 +37,7 @@ namespace XadrezConsole
                 }
 
 
-                
+
             }
             catch (TabuleiroExcepition e)
             {
