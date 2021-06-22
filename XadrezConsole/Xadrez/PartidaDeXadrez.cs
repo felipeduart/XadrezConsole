@@ -28,6 +28,7 @@ namespace XadrezConsole.Xadrez
             jogadorAtual = Cor.Branca;
             terminada = false;
             xeque = false;
+            vulneravel = null;
             pecas = new HashSet<Peca>();
             capturadas = new HashSet<Peca>();
             colocarPecas();
@@ -64,8 +65,29 @@ namespace XadrezConsole.Xadrez
                 T.incrementarQuantidadeteMovimento();
                 tab.ColocarPeca(T, destinoT);
             }
+
+            // #jogadaespecial en passant
+            if (p is Peao)
+            {
+                if (origem.Coluna != destino.Coluna && pecaCapturada == vulneravel)
+                {
+                    Peca peao = tab.RetirarPeca(destino);
+                    Posicao posP;
+                    if (p.Cor == Cor.Branca)
+                    {
+                        posP = new Posicao(3, destino.Coluna);
+                    }
+                    else
+                    {
+                        posP = new Posicao(4, destino.Coluna);
+                    }
+                    tab.ColocarPeca(peao, posP);
+                }
+            }
+
             return pecaCapturada;
         }
+
 
         public void realizaJogada(Posicao origem, Posicao destino)
         {
@@ -78,6 +100,19 @@ namespace XadrezConsole.Xadrez
             }
 
             Peca p = tab.peca(destino);
+
+            // #jogadaespecial promocao
+            if (p is Peao)
+            {
+                if ((p.Cor == Cor.Branca && destino.Linha == 0) || (p.Cor == Cor.Preta && destino.Linha == 7))
+                {
+                    p = tab.RetirarPeca(destino);
+                    pecas.Remove(p);
+                    Peca dama = new Dama(tab, p.Cor);
+                    tab.ColocarPeca(dama, destino);
+                    pecas.Add(dama);
+                }
+            }
 
             if (estaEmXeque(adversaria(jogadorAtual)))
             {
@@ -128,6 +163,24 @@ namespace XadrezConsole.Xadrez
                 Peca T = tab.RetirarPeca(destinoT);
                 T.decrementarQuantidadeteMovimento();
                 tab.ColocarPeca(T, origemT);
+            }
+            // #jogadaespecial en passant
+            if (p is Peao)
+            {
+                if (origem.Coluna != destino.Coluna && pecaCapturada == vulneravel)
+                {
+                    Peca peao = tab.RetirarPeca(destino);
+                    Posicao posP;
+                    if (p.Cor == Cor.Branca)
+                    {
+                        posP = new Posicao(3, destino.Coluna);
+                    }
+                    else
+                    {
+                        posP = new Posicao(4, destino.Coluna);
+                    }
+                    tab.ColocarPeca(peao, posP);
+                }
             }
         }
 
@@ -288,6 +341,7 @@ namespace XadrezConsole.Xadrez
             colocarNovaPeca('b', 5, new Cavalo(tab, Cor.Branca));
             colocarNovaPeca('e', 5, new Dama(tab, Cor.Branca));
             */
+
 
             colocarNovaPeca('a', 1, new Torre(tab, Cor.Branca));
             colocarNovaPeca('b', 1, new Cavalo(tab, Cor.Branca));
